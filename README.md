@@ -4,3 +4,15 @@ Predicting return on asset based on some indicators (“Magic Indicators”) tha
 We are tracking many assets over an intra-day trading period. We denote the assets with a column named “asset id” and we denote time with the column “timestamp”. Furthermore, we have 4 static features namely: “return on asset” (the target variable), “company age” (age of the company), “company size” (Size of the company), “revenue” (Revenue of the company). Normally, we would think that these features would be time series, however, because we are looking at intra-day trading periods these features are static. The 12 “Magic Indicators” are all time series.
 
 Given the low amount of data we are dealing with, we explore some creative techniques to extract patterns and make meaningful but accurate predictions.
+
+1. Random Forest, Linear Regression, Lasso, Ridge, ElasticNet with flattened indicators per asset
+2. SVM with 5, 7, 10 columns of Lagged Data per indicator
+3. Random Forest, Linear Regression, Lasso, Ridge, ElasticNet with indicators replaced with delta of indicator data to capture/emphasize rate of change of indicator
+4. XGBoost on ROI area data
+5. Custom 1D Conv Net with combined maxpooled indicator features + static features
+6. Custom Transformer Model with Self Attention added to add more emphasis on storing Long term pattern data around ROI and outputting to a fully connected dense layer of 1 neuron with Rectified Linear Unit as Activation to predict return on asset
+7. LSTM Model with 2 LSTM Layers outputting to a Fully Connected Dense (1) layer with early stopping and 'huber_loss'
+8. Custom Concatenated LSTM Model with combined static features to LSTM indicator features
+9. Ensemble of LSTM's - 1 LSTM model for each indicator, then combining the model predictions into a final dense layer and training a final model on that feature space
+10. Autoencoder Model to capture lower-dimensional representation of the training data to them take these encoded features -> combine them with the static features per asset and run a K-Fold linear regression model to predict return on asset.
+11. Temporal Convolutional Neural Networks -> a Novel technique to capture the temporal pattern of the data within the indicators and associate it with a static output of return_on_asset
